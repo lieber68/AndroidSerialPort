@@ -17,6 +17,8 @@
 package com.example.lieber.comtest;
 
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -26,11 +28,16 @@ import android_serialport_api.SerialPortFinder;
 
 public class Application extends android.app.Application {
 
+    private static final String TAG = Application.class.getSimpleName();
+
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
 
-    public SerialPort getSerialPort()
-        throws SecurityException, IOException, InvalidParameterException {
+//    private SerialPort read;
+//
+//    private SerialPort send;
+
+    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
         if (mSerialPort == null) {
             /* Read serial port parameters */
 
@@ -43,12 +50,40 @@ public class Application extends android.app.Application {
             if ((path.length() == 0) || (baudrate == -1)) {
                 throw new InvalidParameterException();
             }
+            Log.e(TAG, "getSerialPort: " + path);
 
 			/* Open the serial port */
             mSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
         return mSerialPort;
     }
+
+//    public SerialPort getReadSerialPort() throws SecurityException, IOException, InvalidParameterException {
+//        if (read == null) {
+//            /* Open the serial port */
+//            read = new SerialPort(new File("/dev/ttyUSB7"), 9600, 0);
+//        }
+//        return read;
+//    }
+//
+//    public SerialPort getSendSerialPort() throws SecurityException, IOException, InvalidParameterException {
+//        if (send == null) {
+//            /* Open the serial port */
+//            send = new SerialPort(new File("/dev/ttyUSB8"), 9600, 0);
+//        }
+//        return send;
+//    }
+
+//    public void clear() {
+//        if (read != null) {
+//            read.close();
+//            read = null;
+//        }
+//        if (send != null) {
+//            send.close();
+//            send = null;
+//        }
+//    }
 
     public void closeSerialPort() {
         if (mSerialPort != null) {

@@ -16,12 +16,14 @@
 
 package com.example.lieber.comtest;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class Sending01010101Activity extends SerialPortActivity {
+
+    private static final String TAG = Sending01010101Activity.class.getSimpleName();
 
     SendingThread mSendingThread;
     byte[] mBuffer;
@@ -36,16 +38,22 @@ public class Sending01010101Activity extends SerialPortActivity {
             mSendingThread = new SendingThread();
             mSendingThread.start();
         }
+        //        if (send != null) {
+        //            mSendingThread = new SendingThread();
+        //            mSendingThread.start();
+        //        }
     }
 
     @Override
     protected void onDataReceived(byte[] buffer, int size) {
         // ignore incoming data
+        Log.e(TAG, "onDataReceived: " + new String(buffer));
     }
 
     private class SendingThread extends Thread {
         @Override
         public void run() {
+            Log.e(TAG, "run: " + isInterrupted());
             while (!isInterrupted()) {
                 try {
                     if (mOutputStream != null) {
@@ -53,8 +61,9 @@ public class Sending01010101Activity extends SerialPortActivity {
                     } else {
                         return;
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e(TAG, e.getMessage());
                     return;
                 }
             }

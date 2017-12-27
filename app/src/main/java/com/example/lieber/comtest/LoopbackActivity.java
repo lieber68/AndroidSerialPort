@@ -19,9 +19,12 @@ package com.example.lieber.comtest;
 import java.io.IOException;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class LoopbackActivity extends SerialPortActivity {
+
+    private static final String TAG = LoopbackActivity.class.getSimpleName();
 
     byte mValueToSend;
     boolean mByteReceivedBack;
@@ -96,7 +99,7 @@ public class LoopbackActivity extends SerialPortActivity {
 
     @Override
     protected void onDataReceived(byte[] buffer, int size) {
-
+        Log.e(TAG, "onDataReceived: 我接收到了");
         synchronized (mByteReceivedBackSemaphore) {
             int i;
             for (i = 0; i < size; i++) {
@@ -116,7 +119,8 @@ public class LoopbackActivity extends SerialPortActivity {
 
     @Override
     protected void onDestroy() {
-        if (mSendingThread != null) mSendingThread.interrupt();
+        if (mSendingThread != null)
+            mSendingThread.interrupt();
         super.onDestroy();
     }
 }

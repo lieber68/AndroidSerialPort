@@ -21,17 +21,29 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.security.InvalidParameterException;
 
 import android_serialport_api.SerialPort;
 
 public abstract class SerialPortActivity extends Activity {
 
+    private static final String TAG = SerialPortActivity.class.getSimpleName();
+
     protected Application mApplication;
     protected SerialPort mSerialPort;
+
+    //    protected SerialPort send;
+    //
+    //    protected SerialPort read;
+
     protected OutputStream mOutputStream;
     private InputStream mInputStream;
     private ReadThread mReadThread;
@@ -45,7 +57,8 @@ public abstract class SerialPortActivity extends Activity {
                 int size;
                 try {
                     byte[] buffer = new byte[64];
-                    if (mInputStream == null) return;
+                    if (mInputStream == null)
+                        return;
                     size = mInputStream.read(buffer);
                     if (size > 0) {
                         onDataReceived(buffer, size);
@@ -78,6 +91,10 @@ public abstract class SerialPortActivity extends Activity {
             mSerialPort = mApplication.getSerialPort();
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
+            //            send = mApplication.getSendSerialPort();
+            //            mOutputStream = send.getOutputStream();
+            //            read = mApplication.getReadSerialPort();
+            //            mInputStream = read.getInputStream();
 
 			/* Create a receiving thread */
             mReadThread = new ReadThread();
@@ -95,8 +112,10 @@ public abstract class SerialPortActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (mReadThread != null) mReadThread.interrupt();
+        if (mReadThread != null)
+            mReadThread.interrupt();
         mApplication.closeSerialPort();
+        //        mApplication.clear();
         mSerialPort = null;
         super.onDestroy();
     }

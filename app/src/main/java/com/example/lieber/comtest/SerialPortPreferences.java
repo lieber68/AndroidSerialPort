@@ -26,6 +26,8 @@ import android_serialport_api.SerialPortFinder;
 
 public class SerialPortPreferences extends PreferenceActivity {
 
+    private static final String TAG = SerialPortPreferences.class.getSimpleName();
+
     private Application mApplication;
     private SerialPortFinder mSerialPortFinder;
 

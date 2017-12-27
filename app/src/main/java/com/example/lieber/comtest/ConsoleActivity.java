@@ -26,6 +26,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class ConsoleActivity extends SerialPortActivity {
 
+    private static final String TAG = ConsoleActivity.class.getSimpleName();
+
     EditText mReception;
 
     @Override
