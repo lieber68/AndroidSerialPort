@@ -22,5 +22,5 @@ mSerialPort = new SerialPort(new File(device), baudrate, 0);
 
 ## License
 
-遵循 Apache License 2.0许可证。有关详细,请参阅 [LICENSE](https://lieber68.github.io/AndroidSerialPort/LICENSE)。
+遵循 Apache License 2.0许可证。有关详细,请参阅 [LICENSE](https://github.com/lieber68/AndroidSerialPort/blob/master/LICENSE)。
 
